@@ -37,6 +37,21 @@ def best_stock(data):
         if data[key] == best: return key
 
 
+# Popular words
+def popular_words(text, words):
+    return {word: text.lower().count(word) for word in words}
+
+
+# Bigger Price
+def bigger_price(limit, data):
+    all_price = [dict['price'] for dict in data].sort(reverse=True)
+    print(all_price)
+
+    return [].sort()
+
+
+
+
 
 if __name__ == '__main__':
     assert say_hi("Alex", 32) == "Hi. My name is Alex and I'm 32 years old", "First"
@@ -77,3 +92,28 @@ if __name__ == '__main__':
         'ATX': 1.01,
         'TASI': 120.9
     }) == 'TASI', "Second"
+
+    assert popular_words('''
+    When I was One,
+    I had just begun.
+    When I was Two,
+    I was nearly new.
+    ''', ['i', 'was', 'three']) == {
+        'i': 4,
+        'was': 3,
+        'three': 0
+    }
+
+    assert bigger_price(2, [
+        {"name": "bread", "price": 100},
+        {"name": "wine", "price": 138},
+        {"name": "meat", "price": 15},
+        {"name": "water", "price": 1}
+    ]) == [
+        {"name": "wine", "price": 138},
+        {"name": "bread", "price": 100}
+    ], "First"
+    assert bigger_price(1, [
+        {"name": "pen", "price": 5},
+        {"name": "whiteboard", "price": 170}
+    ]) == [{"name": "whiteboard", "price": 170}], "Second"
