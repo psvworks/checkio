@@ -1,3 +1,4 @@
+from datetime import datetime
 
 # Say Hi
 def say_hi(name, age):
@@ -145,7 +146,15 @@ def easy_unpack(elements):
 
 # Date And Time Convertor
 def date_time(time):
-    print(now)
+    print(time)
+    time = date('01', '02', '03')
+    print(time)
+    date = datetime(time.split())
+    date = datetime.strftime(time, '%d.%B.%Y %H:%M')
+    print(date)
+    #print(now)
+    #print(now.strftime('%d %B %Y year %H hours %M minutes'))
+
     return time
 
 
