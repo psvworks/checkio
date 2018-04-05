@@ -146,16 +146,12 @@ def easy_unpack(elements):
 
 # Date And Time Convertor
 def date_time(time):
-    print(time)
-    time = date('01', '02', '03')
-    print(time)
-    date = datetime(time.split())
-    date = datetime.strftime(time, '%d.%B.%Y %H:%M')
-    print(date)
-    #print(now)
-    #print(now.strftime('%d %B %Y year %H hours %M minutes'))
-
-    return time
+    #print(time)
+    time = datetime.strptime(time, '%d.%m.%Y %M:%S')
+    #print('{:%d %B %Y year %H hours %M minutes}'.format(time))
+    #print('{:%d %B %Y year %H hours %M minutes}'.format(time))
+    print((str(time.day)+'{: %B %Y year }'.format(time) + str(time.hour) + ' hours ' + str(time.minute) + ' minutes'))
+    return (str(time.day)+'{: %B %Y year }'.format(time) + str(time.hour) + ' hours ' + str(time.minute) + ' minutes')
 
 
 if __name__ == '__main__':
