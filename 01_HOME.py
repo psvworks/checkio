@@ -1,3 +1,5 @@
+
+
 # House Password
 def checkio_house_password(data):
     sec = True
@@ -18,10 +20,10 @@ def checkio_house_password(data):
 def checkio_the_most_wanted_letter(text):
     text = text.lower()
     s = sorted([x for x in set(text) if x.isalpha()])
-    max, ch = 0, s[0]
+    maximum, ch = 0, s[0]
     for x in s:
-        if text.count(x) > max:
-            max = text.count(x)
+        if text.count(x) > maximum:
+            maximum = text.count(x)
             ch = x
     return ch
 
@@ -37,9 +39,41 @@ def count_words(text, words):
 
 
 # Xs and Os Referee
-def checkio(game_result):
-    return "D" or "X" or "O"
+def checkio_referee(game_result):
+    r = len(game_result)-1              # ранг матрицы
+    win = "D"
+    diag = ''
+    y = -1
+    for x in game_result:
+        if (x.count(x[0]) > r):
+            win = x[0]
+        y +=1
+        diag += x[y]
+    if diag.count(diag[0]) > r:
+        win = diag[0]
 
+    transp_result = list(zip(*game_result[::-1]))
+    diag = ''
+    y = -1
+    for x in transp_result:
+        if (x.count(x[0]) > r):
+            win = x[0]
+        y +=1
+        diag += x[y]
+    if diag.count(diag[0]) > r:
+        win = diag[0]
+    if win == '.':
+        win = "D"
+    return win
+
+
+# Pawn Brotherhood
+def safe_pawns(pawns):
+    pawns = sorted(pawns)
+    print(pawns)
+    print(set('hello'))
+    print(ord('b'), ord('c'))
+    return 0
 
 
 if __name__ == '__main__':
@@ -67,3 +101,23 @@ if __name__ == '__main__':
     assert count_words("Bananas, give me bananas!!!", {"banana", "bananas"}) == 2, "BANANAS!"
     assert count_words("Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
                        {"sum", "hamlet", "infinity", "anything"}) == 1, "Weird text"
+
+    assert checkio_referee([
+        "X.O",
+        "XX.",
+        "XOO"]) == "X", "Xs wins"
+    assert checkio_referee([
+        "OO.",
+        "XOX",
+        "XOX"]) == "O", "Os wins"
+    assert checkio_referee([
+        "OOX",
+        "XXO",
+        "OXX"]) == "D", "Draw"
+    assert checkio_referee([
+        "O.X",
+        "XX.",
+        "XOO"]) == "X", "Xs wins again"
+
+    assert safe_pawns({"b4", "d4", "f4", "c3", "e3", "g5", "d2"}) == 6
+    assert safe_pawns({"b4", "c4", "d4", "e4", "f4", "g4", "e5"}) == 1
