@@ -1,3 +1,5 @@
+import re
+from typing import List, Any
 
 
 # House Password
@@ -45,9 +47,9 @@ def checkio_referee(game_result):
     diag = ''
     y = -1
     for x in game_result:
-        if (x.count(x[0]) > r):
+        if x.count(x[0]) > r:
             win = x[0]
-        y +=1
+        y += 1
         diag += x[y]
     if diag.count(diag[0]) > r:
         win = diag[0]
@@ -56,9 +58,9 @@ def checkio_referee(game_result):
     diag = ''
     y = -1
     for x in transp_result:
-        if (x.count(x[0]) > r):
+        if x.count(x[0]) > r:
             win = x[0]
-        y +=1
+        y += 1
         diag += x[y]
     if diag.count(diag[0]) > r:
         win = diag[0]
@@ -69,11 +71,38 @@ def checkio_referee(game_result):
 
 # Pawn Brotherhood
 def safe_pawns(pawns):
-    pawns = sorted(pawns)
-    print(pawns)
-    print(set('hello'))
-    print(ord('b'), ord('c'))
+    return len({pawn for pawn in pawns if ((chr(ord(pawn[0]) - 1) + str(int(pawn[1]) - 1) in pawns) or
+                                           (chr(ord(pawn[0]) + 1) + str(int(pawn[1]) - 1)) in pawns)})
+
+
+# Min and Max
+'''
+def min(*args, **kwargs):
+    if len(args) == 1:
+        return sorted(args[0], key = kwargs.get("key"))[0]
+    return sorted(args, key=kwargs.get("key"))[0]
+
+
+def max(*args, **kwargs):
+    if len(args) == 1:
+        return sorted(args[0], key = kwargs.get("key"), reverse=True)[0]
+    return sorted(args, key=kwargs.get("key"), reverse=True)[0]
+'''
+
+
+# Long Repeat
+def long_repeat(line):
+    if line:
+        return max(set(len(symbol*num) for symbol in set(line) for num in range(len(line)+1) if symbol*num in line))
     return 0
+    #return len(line) and 1+long_repeat(''.join(u for u,v in zip(line,line[1:]) if u==v))
+
+
+# All the Same
+def all_the_same(elements: List[Any]) -> bool:
+    if len(set(elements)) > 1:
+        return False
+    return True
 
 
 if __name__ == '__main__':
@@ -121,3 +150,21 @@ if __name__ == '__main__':
 
     assert safe_pawns({"b4", "d4", "f4", "c3", "e3", "g5", "d2"}) == 6
     assert safe_pawns({"b4", "c4", "d4", "e4", "f4", "g4", "e5"}) == 1
+
+    assert max(3, 2) == 3, "Simple case max"
+    assert min(3, 2) == 2, "Simple case min"
+    assert max([1, 2, 0, 3, 4]) == 4, "From a list"
+    assert min("hello") == "e", "From string"
+    assert max(2.2, 5.6, 5.9, key=int) == 5.6, "Two maximal items"
+    assert min([[1, 2], [3, 4], [9, 0]], key=lambda x: x[1]) == [9, 0], "lambda key"
+
+    assert long_repeat('sdsffffse') == 4, "First"
+    assert long_repeat('ddvvrwwwrggg') == 3, "Second"
+    assert long_repeat('abababaab') == 2, "Third"
+    assert long_repeat('') == 0, "Empty"
+
+    assert all_the_same([1, 1, 1]) == True
+    assert all_the_same([1, 2, 1]) == False
+    assert all_the_same(['a', 'a', 'a']) == True
+    assert all_the_same([]) == True
+    assert all_the_same([1]) == True
