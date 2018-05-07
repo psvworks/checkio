@@ -94,8 +94,8 @@ def max(*args, **kwargs):
 def long_repeat(line):
     if line:
         return max(set(len(symbol*num) for symbol in set(line) for num in range(len(line)+1) if symbol*num in line))
+        # return len(line) and 1+long_repeat(''.join(u for u,v in zip(line,line[1:]) if u==v))
     return 0
-    #return len(line) and 1+long_repeat(''.join(u for u,v in zip(line,line[1:]) if u==v))
 
 
 # All the Same
@@ -103,6 +103,21 @@ def all_the_same(elements: List[Any]) -> bool:
     if len(set(elements)) > 1:
         return False
     return True
+
+
+# Caesar Cipher (encryptor)
+def to_encrypt(text, delta):
+    # a = 97        z = 122      delta = 26
+    MIN, MAX = 97, 122
+    print(ord('i'))
+    print(text)
+    text = text.split(' ')
+    for string in text:
+        print(list(map(lambda symbol: chr(ord(symbol) + (delta % 26)), string)))
+        result = ' '.join(list(map(lambda symbol: chr(ord(symbol) + (delta % 26)), string)))
+        print(result)
+    print('===========================')
+    return result
 
 
 if __name__ == '__main__':
@@ -168,3 +183,9 @@ if __name__ == '__main__':
     assert all_the_same(['a', 'a', 'a']) == True
     assert all_the_same([]) == True
     assert all_the_same([1]) == True
+
+    #assert to_encrypt("a b c", 3) == "d e f"
+    #assert to_encrypt("a b c", -3) == "x y z"
+    assert to_encrypt("simple text", 16) == "iycfbu junj"
+    #assert to_encrypt("important text", 10) == "swzybdkxd dohd"
+    #assert to_encrypt("state secret", -13) == "fgngr frperg"
