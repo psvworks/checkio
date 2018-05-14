@@ -1,4 +1,3 @@
-import re
 from typing import List, Any
 
 
@@ -107,17 +106,17 @@ def all_the_same(elements: List[Any]) -> bool:
 
 # Caesar Cipher (encryptor)
 def to_encrypt(text, delta):
-    # a = 97        z = 122      delta = 26
-    MIN, MAX = 97, 122
-    print(ord('i'))
-    print(text)
-    text = text.split(' ')
-    for string in text:
-        print(list(map(lambda symbol: chr(ord(symbol) + (delta % 26)), string)))
-        result = ' '.join(list(map(lambda symbol: chr(ord(symbol) + (delta % 26)), string)))
-        print(result)
-    print('===========================')
-    return result
+    MIN, MAX = ord('a'), ord('z')
+    return(' '.join([''.join(list(map(lambda symbol: chr((ord(symbol) - MIN + delta) % (MAX - MIN + 1) + MIN), string))) for string in text.split(' ')]))
+
+
+# Sun Angle
+def sun_angle(time):
+    proportion = 180 / ((18 - 6) * 60)
+    if int(time.split(':')[0]) > 6 and int(time.split(':')[0]) < 18:
+        delta = (int(time.split(':')[0]) - 6) * 60 + int(time.split(':')[1])
+        return proportion * delta
+    return "I don't see the sun!"
 
 
 if __name__ == '__main__':
@@ -184,8 +183,11 @@ if __name__ == '__main__':
     assert all_the_same([]) == True
     assert all_the_same([1]) == True
 
-    #assert to_encrypt("a b c", 3) == "d e f"
-    #assert to_encrypt("a b c", -3) == "x y z"
+    assert to_encrypt("a b c", 3) == "d e f"
+    assert to_encrypt("a b c", -3) == "x y z"
     assert to_encrypt("simple text", 16) == "iycfbu junj"
-    #assert to_encrypt("important text", 10) == "swzybdkxd dohd"
-    #assert to_encrypt("state secret", -13) == "fgngr frperg"
+    assert to_encrypt("important text", 10) == "swzybdkxd dohd"
+    assert to_encrypt("state secret", -13) == "fgngr frperg"
+
+    assert sun_angle("07:00") == 15
+    assert sun_angle("01:23") == "I don't see the sun!"
